@@ -1,16 +1,10 @@
-// require('dotenv').config();
 const TelegramBot = require('node-telegram-bot-api');
 const config = require('./config.json');
 
-// const token = '5011190532:AAHARLlPuEUDzGsMvIAgjh4eB8Ff5jpD3tY';
 const token = config.telegram.token;
 const token2 = process.env.TELEGRAM_TOKEN;
 
 const bot_username = '@WednesdayLinkBot';
-
-// const bot = new TelegramBot(token, {
-//     polling: true
-// });
 
 let bot;
 if (process.env.NODE_ENV === 'production') {
@@ -26,10 +20,8 @@ if (process.env.NODE_ENV === 'production') {
 const DAY = 3;
 const TIME = 16;
 
-// const DEFAULT_TIME_INTERVAL = 3600000;
-const DEFAULT_TIME_INTERVAL = 60000;
-// const WEEK_INTERVAL = 604800000;
-const WEEK_INTERVAL = 120000;
+const DEFAULT_TIME_INTERVAL = 3600000;
+const WEEK_INTERVAL = 604800000;
 
 
 const successMessage = 'Done.';
@@ -104,12 +96,7 @@ console.log('info', 'bot ', 'Started');
  * Handle chatting
  */
 bot.on('message', async (data) => {
-    console.log('message!!!');
-    // console.log(data);
-    // console.log(data.chat.type);
     const user = await getUserInfo(data.chat.id, data.from.id);
-    // console.log(user);
-
     const chatId = data.chat.id;
     const isPrivateType = data.chat.type === 'private';
     let sendAnswer = false;
@@ -122,11 +109,6 @@ bot.on('message', async (data) => {
             command = data.text.replace('/', '');
             talkedWithBot = true;
         } else {
-            // console.log(data.text.includes(bot_username));
-            // console.log(JSON.stringify(user));
-            // console.log(user.status);
-            // console.log(user);
-
             if (data.text.includes(bot_username)) {
                 talkedWithBot = true;
                 command = data.text.replace('/', '').replace(bot_username, '');
@@ -161,7 +143,6 @@ bot.on('message', async (data) => {
         }
 
         if(sendAnswer) {
-            // const chatId = data.chat.id;
             sendMessage(chatId, answer);
         }
     }
@@ -169,28 +150,22 @@ bot.on('message', async (data) => {
 
 //TODO
 bot.on('left_chat_member', (data) => {
-    console.log('left_chat_member!!!');
-    // console.log('left %s(%s)', data.chat.title, data.chat.id);
-    // channels.delete(msg.chat.id);
-    // saveData();
+
 });
 
 //TODO
 bot.on('new_chat_members', (data) => {
-    console.log('new_chat_members!!!');
-    // let chatId = data.chat.id;
+
 });
 
 //TODO
 bot.on('polling_error', (error) => {
-    console.log('polling_error!!!');
     console.log(error);
     console.log(error.code);  // => 'EFATAL'
 });
 
 //TODO
 bot.on('webhook_error', (error) => {
-    console.log('webhook_error!!!');
     console.log(error);
     console.log(error.code);  // => 'EPARSE'
 });
@@ -199,7 +174,6 @@ bot.on('webhook_error', (error) => {
  * Handle /start
  */
 function handleStart(chatId) {
-    console.log('handleStart!!!');
     startSendingWednesdayMessage(chatId, DEFAULT_TIME_INTERVAL);
     bot.sendMessage(chatId,
         `
@@ -244,12 +218,10 @@ function handleHelp(chatId) {
 }
 
 function handleStop(chatId) {
-    console.log('handleStop!!!');
     stopMessageSending(chatId);
 }
 
 function startSendingWednesdayMessage(chatId, timeInterval) {
-    console.log('startSendingWednesdayMessage!!!');
     let startInterval = setInterval(sendWednesdayMessage, timeInterval, chatId);
     startedIntervalsByChatIds.set(chatId, startInterval);
 }
@@ -259,13 +231,6 @@ function stopMessageSending(chatId) {
 }
 
 function sendWednesdayMessage(chatId) {
-    console.log('sendWednesdayMessage!!!');
-    // console.log('startedIntervalsByChatIds = ' + startedIntervalsByChatIds.get(chatId));
-    // startedIntervalsByChatIds.forEach(value => {
-    //     console.log(value);
-    //     console.log(value._idleTimeout)
-    // });
-    // console.log(chatId);
     if (checkDay(DAY, TIME)) {
         /* default time period used first time and after should be recalculated */
         if (startedIntervalsByChatIds.get(chatId)._idleTimeout === DEFAULT_TIME_INTERVAL) {
@@ -316,50 +281,3 @@ function recalculateInterval(chatId) {
 function sendSticker(chatId, sticker) {
 
 }
-
-
-
-
-// bot.onText(new RegExp('^' + botCommands['start'] + '$', 'i'), (data) => {
-//     const chatId = data.chat.id;
-//     startSendingWednesdayMessage(DAY, chatId);
-//     bot.sendMessage(chatId,
-//         `
-//             Welcome at <b>WednesdayBot</b>, thank you for using  me!
-
-//         `, {
-//             parse_mode: 'HTML',
-//         }
-//     );
-// });
-
-
-
-// bot.onText(new RegExp('^' + botCommands['register'] + '$', 'i'), (data, match) => {
-//   const chatId = data.chat.id;
-//   users.push(chatId);
-//   bot
-//     .sendMessage(chatId, 'Done.')
-//     .catch((error) => {
-//         console.log(errMessage);
-//         console.log(error.code);
-//         console.log(error.response.body);
-//   });
-// })
-
-
-//  bot.onText(new RegExp('^' + botCommands['help'] + '$', 'i'), (data) => {
-//     const chatId = data.chat.id;
-//     bot.sendMessage(chatId,
-//         `
-//             Welcome at <b>WednesdayBot</b>, thank you for using  me!
-
-//             Available commands:
-//             /start - start bot
-//             /help - to see available commands
-//             /register - not work for now
-//         `, {
-//             parse_mode: 'HTML',
-//         }
-//     );
-// });
