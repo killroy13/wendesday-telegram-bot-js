@@ -17,7 +17,7 @@ if (process.env.NODE_ENV === 'production') {
     const url = process.env.HEROKU_URL || 'https://wednesday-telegram-bot.herokuapp.com:443';
     const bot = new TelegramBot(token, options);
 
-    bot.setWebHook(`${url}/bot${TOKEN}`);
+    bot.setWebHook(`${url}/bot${token}`);
  } else {
     bot = new TelegramBot(token,
         {
