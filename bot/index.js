@@ -22,7 +22,6 @@ if (process.env.NODE_ENV === 'production') {
     });
  }
 
-
 const DAY = 3;
 const TIME = 16;
 
@@ -30,7 +29,6 @@ const TIME = 16;
 const DEFAULT_TIME_INTERVAL = 60000;
 // const WEEK_INTERVAL = 604800000;
 const WEEK_INTERVAL = 120000;
-
 
 const successMessage = 'Done.';
 const annoyingQuestion = 'Is this annoying? \n';
@@ -58,11 +56,11 @@ const startedIntervalsByChatIds = new Map();
 
 // Bot commands
 let botCommands = {
-	start: '/start',
-	register: '/register',
+    start: '/start',
+    register: '/register',
     play: '/play',
     stop: '/stop',
-	help: '/help'
+    help: '/help'
 }
 
 const URLs = [
@@ -97,7 +95,7 @@ const URLs = [
 
 
 /* info message */
-console.log('info', 'bot ', 'Started');
+console.log('info', 'wednesday_bot ', 'Started !!!');
 
 
 /**
@@ -105,10 +103,11 @@ console.log('info', 'bot ', 'Started');
  */
 bot.on('message', async (data) => {
     console.log('message!!!');
-    // console.log(data);
+    console.log(data);
     // console.log(data.chat.type);
     const user = await getUserInfo(data.chat.id, data.from.id);
     // console.log(user);
+    console.log(data.text);
 
     const chatId = data.chat.id;
     const isPrivateType = data.chat.type === 'private';
@@ -127,7 +126,7 @@ bot.on('message', async (data) => {
             // console.log(user.status);
             // console.log(user);
 
-            if (data.text.includes(bot_username)) {
+            if (data.text && data.text.includes(bot_username)) {
                 talkedWithBot = true;
                 command = data.text.replace('/', '').replace(bot_username, '');
             }
