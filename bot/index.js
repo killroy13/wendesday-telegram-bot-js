@@ -19,8 +19,8 @@ if (process.env.NODE_ENV === 'production') {
 const DAY = 3;
 const TIME = 16;
 
-const DEFAULT_TIME_INTERVAL = 60000;
-const WEEK_INTERVAL = 120000;
+const DEFAULT_TIME_INTERVAL = 3600000;
+const WEEK_INTERVAL = 604800000;
 
 const successMessage = 'Done.';
 const annoyingQuestion = 'Is this annoying? \n';
