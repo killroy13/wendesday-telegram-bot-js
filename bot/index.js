@@ -50,7 +50,7 @@ const helpMessage = `
                     /register - not work for now
                     /stop - stop bot
 
-                    To talk with me please type /your_message + mention me through @***
+                    To talk with me please type your_message + mention me through @
 `;
 
 let users = [];
