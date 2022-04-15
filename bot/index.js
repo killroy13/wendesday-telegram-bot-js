@@ -82,7 +82,8 @@ const URLs = [
 ];
 
 /* info message */
-console.log('info', 'wednesday_bot ', 'Started !!!');
+console.log('info', 'wednesday_bot - ', 'Started!');
+
 
 /**
  * Handle chatting
@@ -102,9 +103,13 @@ bot.on('message', async (data) => {
             command = data.text.replace('/', '');
             talkedWithBot = true;
         } else {
-            if (data.text && data.text.includes(bot_username)) {
-                talkedWithBot = true;
-                command = data.text.replace('/', '').replace(bot_username, '');
+            if (data) {
+                if (data.text) {
+                    if (data.text.includes(bot_username)) {
+                        command = data.text.replace('/', '').replace(bot_username, '');
+                        talkedWithBot = true;
+                    }
+                }
             }
         }
 
@@ -164,6 +169,9 @@ function handleRegister(chatId) {
   bot
     .sendMessage(chatId, successMessage)
     .catch((error) => {
+        console.log(errMessage);
+        console.log(error.code);
+        console.log(error.response.body);
   });
 }
 
@@ -230,6 +238,9 @@ function sendMessage(chatId, message) {
     bot
         .sendMessage(chatId, message)
         .catch((error) => {
+            console.log(errMessage);
+            console.log(error.code);
+            console.log(error.response.body);
         });
 }
 
