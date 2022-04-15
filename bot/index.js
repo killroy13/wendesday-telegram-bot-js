@@ -15,13 +15,11 @@ if (process.env.NODE_ENV === 'production') {
     });
  }
 
-
 const DAY = 3;
 const TIME = 16;
 
 const DEFAULT_TIME_INTERVAL = 3600000;
 const WEEK_INTERVAL = 604800000;
-
 
 const successMessage = 'Done.';
 const annoyingQuestion = 'Is this annoying? \n';
@@ -42,18 +40,15 @@ const helpMessage = `
 `;
 
 let users = [];
-
-// let chatId;
 const startedIntervalsByChatIds = new Map();
-
 
 // Bot commands
 let botCommands = {
-	start: '/start',
-	register: '/register',
+    start: '/start',
+    register: '/register',
     play: '/play',
     stop: '/stop',
-	help: '/help'
+    help: '/help'
 }
 
 const URLs = [
@@ -86,16 +81,15 @@ const URLs = [
     'https://www.youtube.com/watch?v=gfj6gXGj7DU'
 ];
 
-
 /* info message */
-console.log('info', 'bot ', 'Started');
-
+console.log('info', 'wednesday_bot ', 'Started !!!');
 
 /**
  * Handle chatting
  */
 bot.on('message', async (data) => {
     const user = await getUserInfo(data.chat.id, data.from.id);
+
     const chatId = data.chat.id;
     const isPrivateType = data.chat.type === 'private';
     let sendAnswer = false;
@@ -108,7 +102,7 @@ bot.on('message', async (data) => {
             command = data.text.replace('/', '');
             talkedWithBot = true;
         } else {
-            if (data.text.includes(bot_username)) {
+            if (data.text && data.text.includes(bot_username)) {
                 talkedWithBot = true;
                 command = data.text.replace('/', '').replace(bot_username, '');
             }
@@ -147,28 +141,6 @@ bot.on('message', async (data) => {
     }
 });
 
-//TODO
-bot.on('left_chat_member', (data) => {
-
-});
-
-//TODO
-bot.on('new_chat_members', (data) => {
-
-});
-
-//TODO
-bot.on('polling_error', (error) => {
-    console.log(error);
-    console.log(error.code);  // => 'EFATAL'
-});
-
-//TODO
-bot.on('webhook_error', (error) => {
-    console.log(error);
-    console.log(error.code);  // => 'EPARSE'
-});
-
 /**
  * Handle /start
  */
@@ -192,9 +164,6 @@ function handleRegister(chatId) {
   bot
     .sendMessage(chatId, successMessage)
     .catch((error) => {
-        console.log(errMessage);
-        console.log(error.code);
-        console.log(error.response.body);
   });
 }
 
@@ -261,22 +230,11 @@ function sendMessage(chatId, message) {
     bot
         .sendMessage(chatId, message)
         .catch((error) => {
-            console.log(errMessage);
-            console.log(error.code);
-            console.log(error.response.body);
         });
 }
 
 /* recalculate default timeout. Set period once per week */
 function recalculateInterval(chatId) {
-    console.log('recalculateInterval!!!');
     stopMessageSending(chatId);
     startSendingWednesdayMessage(chatId, WEEK_INTERVAL);
-}
-
-//TODO Use this method to send static .WEBP or animated .TGS stickers. On success, the sent Message is returned.
-//chat_id	Integer or String
-// sticker	InputFile or String
-function sendSticker(chatId, sticker) {
-
 }
