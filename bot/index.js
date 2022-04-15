@@ -5,14 +5,25 @@ const token = process.env.BOT_TOKEN;
 
 const bot_username = '@WednesdayLinkBot';
 
+const options = {
+    polling: true,
+    webHook: {
+      port: process.env.PORT
+    }
+};
+
 let bot;
 if (process.env.NODE_ENV === 'production') {
-    bot = new TelegramBot(token);
-    bot.setWebHook(process.env.HEROKU_URL + bot.token);
+    const url = process.env.HEROKU_URL || 'https://wednesday-telegram-bot.herokuapp.com:443';
+    const bot = new TelegramBot(token, options);
+
+    bot.setWebHook(`${url}/bot${TOKEN}`);
  } else {
-    bot = new TelegramBot(token, {
-        polling: true
-    });
+    bot = new TelegramBot(token,
+        {
+            polling: true
+        }
+    );
  }
 
 const DAY = 3;
