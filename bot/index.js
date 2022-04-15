@@ -1,8 +1,7 @@
 const TelegramBot = require('node-telegram-bot-api');
 const config = require('./config.json');
 
-const token = config.telegram.token;
-const token2 = process.env.TELEGRAM_TOKEN;
+const token = process.env.BOT_TOKEN;
 
 const bot_username = '@WednesdayLinkBot';
 
